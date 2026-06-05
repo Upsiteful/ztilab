@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZTI Lab – Laboratorija za Zubnu Tehniku | Novi Sad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --blue:        #1B4F72;
+  --blue-light:  #2E86C1;
+  --blue-mid:    #1A5276;
+  --blue-pale:   #D6EAF8;
+  --blue-dark:   #0F2D45;
+  --accent:      #1B4F72;
+  --bg:          #F0F6FB;
+  --bg-2:        #E3EFF8;
+  --bg-3:        #D4E6F1;
+  --bg-card:     #FFFFFF;
+  --text:        #0E2A3D;
+  --text-mid:    #2C5F7A;
+  --text-muted:  #6B90A8;
+  --white:       #FFFFFF;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 24px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  background: rgba(240,246,251,0.96);
+  backdrop-filter: blur(16px);
+  padding: 14px 60px;
+  box-shadow: 0 1px 0 rgba(27,79,114,0.12);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text-muted); font-weight: 300; }
+.nav-links { display: flex; gap: 40px; list-style: none; }
+.nav-links a {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--blue-light);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover { color: var(--blue); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--blue);
+  padding: 10px 26px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+.nav-cta:hover { background: var(--blue-light); transform: translateY(-1px); }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+}
+.hamburger span { display: block; width: 24px; height: 1px; background: var(--blue); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 60px 100px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(150deg, #EAF4FC 0%, #D6EAF8 50%, #C8E0F4 100%);
+}
+.hero-circles {
+  position: absolute;
+  right: -80px; top: 50%;
+  transform: translateY(-50%);
+  width: 640px; height: 640px;
+  pointer-events: none;
+}
+.hero-circle-1 {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(27,79,114,0.12);
+  border-radius: 50%;
+  animation: spin 40s linear infinite;
+}
+.hero-circle-2 {
+  position: absolute;
+  inset: 80px;
+  border: 1px solid rgba(27,79,114,0.08);
+  border-radius: 50%;
+  animation: spin 28s linear infinite reverse;
+}
+.hero-circle-3 {
+  position: absolute;
+  inset: 180px;
+  border: 1px solid rgba(27,79,114,0.15);
+  border-radius: 50%;
+}
+.hero-dot {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: var(--blue-light);
+  border-radius: 50%;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.6;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(27,79,114,0.04) 59px, rgba(27,79,114,0.04) 60px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(27,79,114,0.04) 59px, rgba(27,79,114,0.04) 60px);
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.3s forwards;
+}
+.hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--blue-light); }
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 6.5vw, 88px);
+  font-weight: 300;
+  line-height: 1.0;
+  color: var(--blue-dark);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero-title em { font-style: italic; color: var(--blue-light); }
+.hero-desc {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--text-mid);
+  max-width: 460px;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.7s forwards;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.9s forwards;
+}
+.btn-primary {
+  background: var(--blue);
+  color: var(--white);
+  padding: 16px 40px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--blue-light); transform: translateY(-2px); }
+.btn-secondary {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: color 0.3s;
+}
+.btn-secondary::before { content: ''; width: 28px; height: 1px; background: currentColor; transition: width 0.3s; }
+.btn-secondary:hover { color: var(--blue); }
+.btn-secondary:hover::before { width: 44px; }
+
+.hero-stats {
+  position: absolute;
+  bottom: 100px; right: 60px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  opacity: 0;
+  animation: fadeUp 0.9s 1.1s forwards;
+}
+.stat { text-align: right; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 300;
+  color: var(--blue);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px; left: 60px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeUp 0.9s 1.2s forwards;
+}
+.scroll-line {
+  width: 1px; height: 56px;
+  background: linear-gradient(to bottom, var(--blue), transparent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.scroll-text {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* SECTION HELPERS */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.section-label::before { content: ''; width: 30px; height: 1px; background: var(--blue-light); }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--blue-dark);
+}
+.section-title em { font-style: italic; color: var(--blue-light); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+
+/* USLUGE */
+.services {
+  padding: 130px 60px;
+  background: var(--white);
+}
+.services-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 72px;
+}
+.services-intro {
+  max-width: 340px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--text-muted);
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--bg-3);
+}
+.service-card {
+  background: var(--white);
+  padding: 48px 40px;
+  transition: background 0.35s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--blue-light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.service-card:hover { background: var(--bg); }
+.service-card:hover::after { transform: scaleX(1); }
+.service-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--blue-pale);
+  color: rgba(27,79,114,0.25);
+  margin-bottom: 28px;
+}
+.service-icon-wrap {
+  width: 52px; height: 52px;
+  background: var(--blue-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  transition: background 0.3s;
+}
+.service-card:hover .service-icon-wrap { background: var(--blue); }
+.service-icon-wrap svg { transition: stroke 0.3s; }
+.service-card:hover .service-icon-wrap svg { stroke: white !important; }
+.service-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--blue-dark);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.service-desc {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--text-muted);
+}
+
+/* O NAMA */
+.about {
+  padding: 140px 60px;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+.about-visual {
+  position: relative;
+  height: 520px;
+}
+.about-frame {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  border: 1px solid rgba(27,79,114,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about-frame-inner {
+  width: calc(100% - 48px);
+  height: calc(100% - 48px);
+  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.about-monogram {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 96px;
+  font-weight: 300;
+  color: rgba(27,79,114,0.1);
+  line-height: 1;
+}
+.about-frame-label {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.about-frame-divider {
+  display: flex; align-items: center; gap: 16px;
+}
+.about-frame-divider-line { width: 48px; height: 1px; background: rgba(27,79,114,0.2); }
+.about-frame-divider-dot { width: 6px; height: 6px; background: var(--blue-light); transform: rotate(45deg); }
+.about-corner {
+  position: absolute;
+  width: 22px; height: 22px;
+}
+.about-corner.tl { top: 0; left: 0; border-top: 2px solid var(--blue-light); border-left: 2px solid var(--blue-light); }
+.about-corner.tr { top: 0; right: 0; border-top: 2px solid var(--blue-light); border-right: 2px solid var(--blue-light); }
+.about-corner.bl { bottom: 0; left: 0; border-bottom: 2px solid var(--blue-light); border-left: 2px solid var(--blue-light); }
+.about-corner.br { bottom: 0; right: 0; border-bottom: 2px solid var(--blue-light); border-right: 2px solid var(--blue-light); }
+.about-badge {
+  position: absolute;
+  bottom: -24px; right: -24px;
+  width: 110px; height: 110px;
+  background: var(--blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.about-badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1;
+}
+.about-badge-text {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  margin-top: 4px;
+}
+.about-content .section-title { margin-bottom: 28px; }
+.about-text {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.95;
+  color: var(--text-muted);
+  margin-bottom: 44px;
+}
+.about-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.about-detail {
+  padding: 20px 22px;
+  border: 1px solid rgba(27,79,114,0.12);
+  background: var(--white);
+}
+.about-detail-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 7px;
+}
+.about-detail-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: var(--text);
+}
+
+/* GALERIJA */
+.gallery {
+  padding: 130px 60px;
+  background: var(--white);
+}
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 56px;
+}
+.gallery-filter { display: flex; gap: 8px; }
+.filter-btn {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  background: none;
+  border: 1px solid rgba(27,79,114,0.2);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Jost', sans-serif;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 220px;
+  gap: 10px;
+}
+.gallery-item { position: relative; overflow: hidden; background: var(--bg-2); }
+.gallery-item.wide { grid-column: span 2; }
+.gallery-item.tall { grid-row: span 2; }
+.gallery-item-inner {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s ease;
+  background: linear-gradient(135deg, var(--bg-2), var(--bg-3));
+  position: relative;
+}
+.gallery-item:hover .gallery-item-inner { transform: scale(1.04); }
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,42,72,0.88) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  display: flex;
+  align-items: flex-end;
+  padding: 22px;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+.gallery-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: white;
+}
+.gallery-sublabel {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(180,210,240,0.85);
+  margin-top: 4px;
+}
+.gallery-art { opacity: 0.3; }
+
+/* PROCES */
+.process {
+  padding: 130px 60px;
+  background: var(--bg);
+}
+.process-header { text-align: center; margin-bottom: 88px; }
+.process-header .section-label { justify-content: center; }
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  position: relative;
+}
+.process-steps::before {
+  content: '';
+  position: absolute;
+  top: 47px;
+  left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--blue-pale), var(--blue-light), var(--blue-pale), transparent);
+}
+.process-step { padding: 0 28px; text-align: center; }
+.step-dot {
+  width: 94px; height: 94px;
+  border: 1px solid rgba(27,79,114,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 36px;
+  background: var(--white);
+  transition: border-color 0.4s, background 0.4s, box-shadow 0.4s;
+}
+.process-step:hover .step-dot {
+  border-color: var(--blue-light);
+  background: var(--blue-pale);
+  box-shadow: 0 0 0 8px rgba(27,79,114,0.05);
+}
+.step-dot-inner {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--blue-light);
+  transition: color 0.4s;
+}
+.process-step:hover .step-dot-inner { color: var(--blue); }
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--blue-dark);
+  margin-bottom: 14px;
+}
+.step-desc {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--text-muted);
+}
+
+/* RECENZIJE */
+.reviews {
+  padding: 130px 0;
+  background: var(--blue-dark);
+  overflow: hidden;
+}
+.reviews-header { text-align: center; margin-bottom: 72px; padding: 0 60px; }
+.reviews-header .section-label { justify-content: center; color: rgba(180,210,240,0.7); }
+.reviews-header .section-label::before { background: rgba(180,210,240,0.4); }
+.reviews-header .section-title { color: var(--white); }
+.reviews-header .section-title em { color: #7EC8E3; }
+
+.reviews-track {
+  display: flex;
+  gap: 20px;
+  animation: marquee 32s linear infinite;
+  width: max-content;
+  padding: 0 20px;
+}
+.reviews-track:hover { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.review-card {
+  width: 400px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 40px 36px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.review-card:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(126,200,227,0.3);
+}
+.review-stars { color: #7EC8E3; font-size: 14px; letter-spacing: 3px; margin-bottom: 22px; }
+.review-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 28px;
+}
+.review-author { display: flex; align-items: center; gap: 14px; }
+.review-avatar {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(126,200,227,0.15);
+  border: 1px solid rgba(126,200,227,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: #7EC8E3;
+}
+.review-name { font-size: 13px; font-weight: 500; color: var(--white); }
+.review-role { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+.reviews-cta { text-align: center; margin-top: 60px; padding: 0 60px; }
+.reviews-cta p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 24px;
+}
+.btn-primary-light {
+  background: var(--white);
+  color: var(--blue-dark);
+  padding: 15px 40px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-primary-light:hover { background: #7EC8E3; transform: translateY(-2px); }
+
+/* CERTIFIKATI */
+.certifications {
+  padding: 72px 60px;
+  background: var(--white);
+  border-top: 1px solid rgba(27,79,114,0.1);
+  border-bottom: 1px solid rgba(27,79,114,0.1);
+}
+.cert-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 72px;
+  flex-wrap: wrap;
+}
+.cert-item { text-align: center; opacity: 0.45; transition: opacity 0.3s; }
+.cert-item:hover { opacity: 1; }
+.cert-icon { font-size: 22px; color: var(--blue-light); }
+.cert-name {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  display: block;
+  margin-top: 8px;
+}
+
+/* KONTAKT */
+.contact {
+  padding: 140px 60px;
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 90px;
+}
+.contact-info .section-title { margin-bottom: 32px; }
+.contact-text {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.95;
+  color: var(--text-muted);
+  margin-bottom: 48px;
+}
+.contact-details { display: flex; flex-direction: column; gap: 26px; }
+.contact-item { display: flex; gap: 18px; align-items: flex-start; }
+.contact-icon {
+  width: 42px; height: 42px;
+  border: 1px solid rgba(27,79,114,0.2);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  color: var(--blue-light);
+}
+.contact-item-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  margin-bottom: 5px;
+}
+.contact-item-value {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+a.contact-item-value:hover { color: var(--blue-light); }
+
+/* FORM */
+.contact-form { display: flex; flex-direction: column; gap: 18px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 7px; }
+.form-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.form-input, .form-textarea, .form-select {
+  background: var(--white);
+  border: 1px solid rgba(27,79,114,0.18);
+  color: var(--text);
+  padding: 13px 16px;
+  font-size: 14px;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100%;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--blue-light);
+  box-shadow: 0 0 0 3px rgba(27,79,114,0.08);
+}
+.form-textarea { resize: vertical; min-height: 130px; }
+.form-select option { background: white; color: var(--text); }
+.form-submit {
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  padding: 16px 44px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: 'Jost', sans-serif;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  align-self: flex-start;
+}
+.form-submit:hover { background: var(--blue-light); transform: translateY(-1px); }
+.form-success {
+  display: none;
+  background: rgba(27,79,114,0.08);
+  border: 1px solid rgba(27,79,114,0.25);
+  padding: 18px 22px;
+  font-size: 13px;
+  color: var(--blue);
+  letter-spacing: 0.04em;
+}
+
+/* MAPA */
+.map-section {
+  height: 340px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-2);
+  border-top: 1px solid rgba(27,79,114,0.1);
+}
+.map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(27,79,114,0.06) 39px, rgba(27,79,114,0.06) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(27,79,114,0.06) 39px, rgba(27,79,114,0.06) 40px);
+}
+.map-pin {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-60%);
+  text-align: center;
+  z-index: 2;
+}
+.map-pin-icon {
+  width: 44px; height: 44px;
+  background: var(--blue);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-pin-icon::after {
+  content: '◆';
+  color: white;
+  font-size: 14px;
+  transform: rotate(45deg);
+  display: block;
+}
+.map-address {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--blue-dark);
+  margin-bottom: 6px;
+}
+.map-city {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.map-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-light);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(27,79,114,0.25);
+  padding-bottom: 2px;
+  transition: border-color 0.3s;
+}
+.map-link:hover { border-color: var(--blue-light); }
+
+/* FOOTER */
+footer {
+  background: var(--blue-dark);
+  padding: 80px 60px 36px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 56px;
+  margin-bottom: 60px;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 18px;
+}
+.footer-logo span { color: rgba(255,255,255,0.4); font-weight: 300; }
+.footer-tagline {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: rgba(255,255,255,0.45);
+  max-width: 270px;
+  margin-bottom: 28px;
+}
+.footer-social { display: flex; gap: 10px; }
+.social-link {
+  width: 38px; height: 38px;
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  text-decoration: none;
+  transition: all 0.3s;
+  font-family: 'Jost', sans-serif;
+}
+.social-link:hover { border-color: #7EC8E3; color: #7EC8E3; }
+.footer-col-title {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #7EC8E3;
+  margin-bottom: 22px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.footer-col ul li a {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: color 0.3s;
+  letter-spacing: 0.02em;
+}
+.footer-col ul li a:hover { color: var(--white); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.04em;
+}
+.footer-sep { color: rgba(126,200,227,0.5); margin: 0 8px; }
+.footer-line { width: 100px; height: 1px; background: linear-gradient(90deg, #7EC8E3, transparent); opacity: 0.3; }
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  nav, nav.scrolled { padding: 18px 32px; }
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .hero { padding: 0 32px 80px; }
+  .hero-stats { right: 32px; }
+  .services { padding: 80px 32px; }
+  .services-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .about { padding: 80px 32px; grid-template-columns: 1fr; gap: 60px; }
+  .gallery { padding: 80px 32px; }
+  .gallery-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; }
+  .gallery-item.wide { grid-column: span 2; }
+  .process { padding: 80px 32px; }
+  .process-steps { grid-template-columns: 1fr 1fr; }
+  .process-steps::before { display: none; }
+  .reviews-header { padding: 0 32px; }
+  .reviews-cta { padding: 0 32px; }
+  .certifications { padding: 60px 32px; }
+  .cert-inner { gap: 40px; }
+  .contact { padding: 80px 32px; grid-template-columns: 1fr; gap: 56px; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  footer { padding: 60px 32px 32px; }
+}
+@media (max-width: 640px) {
+  .hero-stats { display: none; }
+  .services-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+  .gallery-item.wide { grid-column: span 2; }
+  .gallery-item.tall { grid-row: auto; }
+  .process-steps { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .about-details { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">ZTI<span>lab</span></a>
+  <ul class="nav-links">
+    <li><a href="#usluge">Usluge</a></li>
+    <li><a href="#onama">O nama</a></li>
+    <li><a href="#galerija">Galerija</a></li>
+    <li><a href="#recenzije">Recenzije</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="nav-cta">Pošalji upit</a>
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-circles">
+    <div class="hero-circle-1"><div class="hero-dot"></div></div>
+    <div class="hero-circle-2"></div>
+    <div class="hero-circle-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Laboratorija za zubnu tehniku</div>
+    <h1 class="hero-title">Preciznost<br>koja <em>inspiriše</em><br>osmeh</h1>
+    <p class="hero-desc">Vrhunska izrada zubno-tehničkih radova u srcu Novog Sada. Saradnja sa stomatolozima zasnovana na preciznosti, kvalitetu materijala i estetskom savršenstvu.</p>
+    <div class="hero-actions">
+      <a href="#galerija" class="btn-primary">Pogledaj radove</a>
+      <a href="#kontakt" class="btn-secondary">Pošalji upit</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Godina iskustva</div></div>
+    <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Zadovoljnih klijenata</div></div>
+    <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Ocena preciznosti</div></div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Skroluj</span>
+  </div>
+</section>
+
+<!-- USLUGE -->
+<section class="services" id="usluge">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-label">Naše usluge</div>
+      <h2 class="section-title">Šta <em>radimo</em></h2>
+    </div>
+    <p class="services-intro">Svaki rad izrađujemo uz upotrebu savremenih materijala i digitalnih tehnologija. Preciznost nije opcija — to je naš standard.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-number">01</div>
+      <div class="service-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1B4F72" stroke-width="1.5">
+          <ellipse cx="13" cy="14" rx="9" ry="11"/><path d="M7 10 Q13 5 19 10"/>
+        </svg>
+      </div>
+      <div class="service-name">Keramičke krunice</div>
+      <p class="service-desc">Estetski visoko vredne krunice od litijum-disilikata i cirkonijuma. Besprekorna boja, oblik i translucencija prilagođena prirodnom izgledu.</p>
+    </div>
+    <div class="service-card reveal reveal-d1">
+      <div class="service-number">02</div>
+      <div class="service-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1B4F72" stroke-width="1.5">
+          <rect x="4" y="9" width="18" height="13" rx="2"/><path d="M9 9V7Q9 4 13 4Q17 4 17 7V9"/><line x1="13" y1="12" x2="13" y2="19"/>
+        </svg>
+      </div>
+      <div class="service-name">Zirkonijumski mostovi</div>
+      <p class="service-desc">Visoko precizni mostovi sa CAD/CAM frezovanjem. Dugotrajnost, biokompatibilnost i izgled nerazlučiv od prirodnih zuba.</p>
+    </div>
+    <div class="service-card reveal reveal-d2">
+      <div class="service-number">03</div>
+      <div class="service-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1B4F72" stroke-width="1.5">
+          <ellipse cx="13" cy="16" rx="9" ry="7"/><path d="M6 13 Q6 7 13 7 Q20 7 20 13"/>
+        </svg>
+      </div>
+      <div class="service-name">Totalne i parcijalne proteze</div>
+      <p class="service-desc">Individualna izrada po najsavremenijim tehnikama. Udobnost, stabilnost i prirodan estetski rezultat koji vraća osmeh i samopouzdanje.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-number">04</div>
+      <div class="service-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1B4F72" stroke-width="1.5">
+          <path d="M5 20 L5 13 Q5 6 13 6 Q21 6 21 13 L21 20"/>
+          <line x1="5" y1="20" x2="21" y2="20"/>
+          <line x1="9" y1="10" x2="9" y2="20"/>
+          <line x1="13" y1="8" x2="13" y2="20"/>
+          <line x1="17" y1="10" x2="17" y2="20"/>
+        </svg>
+      </div>
+      <div class="service-name">Veniri</div>
+      <p class="service-desc">Ultra-tanke keramičke ljuske koje transformišu osmeh. Minimalno invazivna procedura, maksimalan estetski efekat za savršen Hollywood osmeh.</p>
+    </div>
+    <div class="service-card reveal reveal-d1">
+      <div class="service-number">05</div>
+      <div class="service-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1B4F72" stroke-width="1.5">
+          <circle cx="13" cy="16" r="7"/><line x1="13" y1="9" x2="13" y2="4"/>
+          <path d="M11 5 L13 4 L15 5"/><circle cx="13" cy="16" r="3"/>
+          <line x1="16" y1="13" x2="20" y2="9"/>
+        </svg>
+      </div>
+      <div class="service-name">Implantološke nadogradnje</div>
+      <p class="service-desc">Precizno izrađene krunice i konstrukcije na implantatima. Sva glavna implantatna sistema — digitalna preciznost za savršen fit.</p>
+    </div>
+    <div class="service-card reveal reveal-d2">
+      <div class="service-number">06</div>
+      <div class="service-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#1B4F72" stroke-width="1.5">
+          <rect x="3" y="10" width="20" height="12" rx="2"/>
+          <path d="M9 10V8Q9 5 11 5L15 5Q17 5 17 8V10"/>
+          <circle cx="13" cy="16" r="3"/>
+        </svg>
+      </div>
+      <div class="service-name">Ortodontski aparati</div>
+      <p class="service-desc">Funkcionalni ortodontski aparati, retajneri i splintovi izrađeni po individualnoj meri. Preciznost koja osigurava optimalne kliničke rezultate.</p>
+    </div>
+  </div>
+</section>
+
+<!-- O NAMA -->
+<section class="about" id="onama">
+  <div class="about-visual reveal">
+    <div class="about-frame">
+      <span class="about-corner tl"></span>
+      <span class="about-corner tr"></span>
+      <span class="about-corner bl"></span>
+      <span class="about-corner br"></span>
+      <div class="about-frame-inner">
+        <div class="about-monogram">ZTI</div>
+        <div class="about-frame-label">Est. 2012 · Novi Sad</div>
+        <div class="about-frame-divider">
+          <div class="about-frame-divider-line"></div>
+          <div class="about-frame-divider-dot"></div>
+          <div class="about-frame-divider-line"></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-badge">
+      <div class="about-badge-num">12+</div>
+      <div class="about-badge-text">Godina iskustva</div>
+    </div>
+  </div>
+  <div class="about-content reveal reveal-d1">
+    <div class="section-label">O nama</div>
+    <h2 class="section-title">Strast prema<br><em>savršenom zanatu</em></h2>
+    <p class="about-text">
+      ZTI Lab je laboratorija za zubnu tehniku sa sedištem u Novom Sadu, na adresi Rumenačka 21. Osnovala ju je i vodi Ivana Popadić — iskusna zubna tehničarka sa dugogodišnjom praksom i istinskom posvećenošću svom zanatu.
+      <br><br>
+      Verujemo da svaki zubno-tehnički rad mora biti savršen — ne samo funkcionalno, već i estetski. Kombinujemo tradicionalne tehnike sa savremenom digitalnom tehnologijom kako bismo stomatolozima pružili pouzdanog partnera.
+    </p>
+    <div class="about-details">
+      <div class="about-detail">
+        <div class="about-detail-label">Vlasnik</div>
+        <div class="about-detail-value">Ivana Popadić</div>
+      </div>
+      <div class="about-detail">
+        <div class="about-detail-label">Lokacija</div>
+        <div class="about-detail-value">Rumenačka 21, Novi Sad</div>
+      </div>
+      <div class="about-detail">
+        <div class="about-detail-label">Email</div>
+        <div class="about-detail-value">ztilabns@gmail.com</div>
+      </div>
+      <div class="about-detail">
+        <div class="about-detail-label">Telefon</div>
+        <div class="about-detail-value">064 012 5598</div>
+      </div>
+    </div>
+    <a href="#kontakt" class="btn-primary">Kontaktirajte nas</a>
+  </div>
+</section>
+
+<!-- GALERIJA -->
+<section class="gallery" id="galerija">
+  <div class="gallery-header reveal">
+    <div>
+      <div class="section-label">Galerija radova</div>
+      <h2 class="section-title">Naša <em>dela</em></h2>
+    </div>
+    <div class="gallery-filter">
+      <button class="filter-btn active">Sve</button>
+      <button class="filter-btn">Krunice</button>
+      <button class="filter-btn">Proteze</button>
+      <button class="filter-btn">Veniri</button>
+    </div>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item wide">
+      <div class="gallery-item-inner">
+        <svg class="gallery-art" viewBox="0 0 560 220" width="380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 170 Q80 110 130 130 Q160 142 190 122 Q230 95 270 118 Q310 142 340 122 Q380 98 420 128 Q460 155 520 170" stroke="#1B4F72" stroke-width="2"/>
+          <ellipse cx="190" cy="118" rx="38" ry="52" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.06)"/>
+          <ellipse cx="270" cy="110" rx="38" ry="56" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.06)"/>
+          <ellipse cx="420" cy="122" rx="38" ry="50" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.06)"/>
+          <text x="280" y="205" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="13" letter-spacing="7">ZIRKONIJUMSKI MOST · 3 ČLANA</text>
+        </svg>
+        <div class="gallery-overlay">
+          <div><div class="gallery-label">Zirkonijumski most — 3 člana</div><div class="gallery-sublabel">Anterior estetika · 2024</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-inner">
+        <svg class="gallery-art" viewBox="0 0 220 220" width="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="110" cy="124" rx="52" ry="66" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
+          <path d="M68 110 Q110 76 152 110" stroke="#1B4F72" stroke-width="1"/>
+          <line x1="110" y1="76" x2="110" y2="58" stroke="#1B4F72" stroke-width="1"/>
+          <circle cx="110" cy="52" r="6" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.1)"/>
+          <text x="110" y="210" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="4">VENEER</text>
+        </svg>
+        <div class="gallery-overlay">
+          <div><div class="gallery-label">Keramički veniri</div><div class="gallery-sublabel">E.max Press · 2024</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item tall">
+      <div class="gallery-item-inner">
+        <svg class="gallery-art" viewBox="0 0 220 440" width="100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="110" cy="148" rx="54" ry="74" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
+          <ellipse cx="110" cy="310" rx="50" ry="66" stroke="#1B4F72" stroke-width="1.5" fill="rgba(27,79,114,0.04)"/>
+          <path d="M56 222 Q110 258 164 222" stroke="#2E86C1" stroke-width="1" stroke-dasharray="4 4"/>
+          <line x1="110" y1="74" x2="110" y2="244" stroke="rgba(27,79,114,0.2)" stroke-width="1"/>
+          <text x="110" y="424" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="3">IMPLANT</text>
+        </svg>
+        <div class="gallery-overlay">
+          <div><div class="gallery-label">Implantološka nadogradnja</div><div class="gallery-sublabel">Zirkon abutment · 2024</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-inner">
+        <svg class="gallery-art" viewBox="0 0 220 220" width="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36 170 Q110 62 184 170" stroke="#1B4F72" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
+          <path d="M58 170 Q110 86 162 170" stroke="#2E86C1" stroke-width="1"/>
+          <circle cx="110" cy="72" r="18" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.07)"/>
+          <text x="110" y="210" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="4">E.MAX</text>
+        </svg>
+        <div class="gallery-overlay">
+          <div><div class="gallery-label">Mono-keramička kruna</div><div class="gallery-sublabel">Emax Press · 2025</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item wide">
+      <div class="gallery-item-inner">
+        <svg class="gallery-art" viewBox="0 0 560 220" width="380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M44 144 Q100 76 156 96 L200 88 Q248 68 280 88 L324 96 Q380 76 436 96 Q492 118 516 144" stroke="#1B4F72" stroke-width="1.5" fill="none"/>
+          <rect x="72" y="136" width="416" height="28" rx="4" stroke="#2E86C1" stroke-width="1" fill="rgba(46,134,193,0.04)"/>
+          <text x="280" y="205" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="13" letter-spacing="7">TOTALNA PROTEZA · PREMIUM</text>
+        </svg>
+        <div class="gallery-overlay">
+          <div><div class="gallery-label">Totalna proteza</div><div class="gallery-sublabel">Premium akrilat · 2025</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-inner">
+        <svg class="gallery-art" viewBox="0 0 220 220" width="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36 136 Q110 56 184 136" stroke="#1B4F72" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
+          <path d="M58 136 Q110 76 162 136" stroke="#2E86C1" stroke-width="1" fill="rgba(27,79,114,0.03)"/>
+          <line x1="76" y1="136" x2="76" y2="190" stroke="#2E86C1" stroke-width="1"/>
+          <line x1="144" y1="136" x2="144" y2="190" stroke="#2E86C1" stroke-width="1"/>
+          <line x1="66" y1="190" x2="154" y2="190" stroke="#1B4F72" stroke-width="1.5"/>
+          <text x="110" y="212" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="3">RETAJNER</text>
+        </svg>
+        <div class="gallery-overlay">
+          <div><div class="gallery-label">Ortodontski retajner</div><div class="gallery-sublabel">Vakum-termoplast · 2025</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCES -->
+<section class="process" id="proces">
+  <div class="process-header reveal">
+    <div class="section-label">Kako radimo</div>
+    <h2 class="section-title">Naš <em>proces</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-dot"><div class="step-dot-inner">01</div></div>
+      <div class="step-title">Prijem otiska</div>
+      <p class="step-desc">Prihvatamo klasične otiske ili digitalne skenove. Svaki slučaj pažljivo analiziramo pre početka izrade.</p>
+    </div>
+    <div class="process-step reveal reveal-d1">
+      <div class="step-dot"><div class="step-dot-inner">02</div></div>
+      <div class="step-title">Dizajn i planiranje</div>
+      <p class="step-desc">Svaki rad digitalno planiramo, po potrebi uz wax-up ili digitalni smile dizajn za predvidiv rezultat.</p>
+    </div>
+    <div class="process-step reveal reveal-d2">
+      <div class="step-dot"><div class="step-dot-inner">03</div></div>
+      <div class="step-title">Izrada</div>
+      <p class="step-desc">Ručna izrada ili CAD/CAM frezovanje, višestruka proba i kontrola kvaliteta u svakoj fazi procesa.</p>
+    </div>
+    <div class="process-step reveal reveal-d3">
+      <div class="step-dot"><div class="step-dot-inner">04</div></div>
+      <div class="step-title">Isporuka</div>
+      <p class="step-desc">Pravovremena isporuka uz kompletnu dokumentaciju. Stojimo iza svakog rada koji napusti laboratoriju.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RECENZIJE -->
+<section class="reviews" id="recenzije">
+  <div class="reviews-header reveal">
+    <div class="section-label">Šta kažu klijenti</div>
+    <h2 class="section-title">Reči <em>hvale</em></h2>
+  </div>
+  <div style="overflow:hidden;">
+    <div class="reviews-track">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Sarađujem sa Ivanom godinama i svaki rad koji dobijam je besprekoran. Pacijenti su oduševljeni estetikom, a ja imam potpuno poverenje u preciznost."</p>
+        <div class="review-author">
+          <div class="review-avatar">DM</div>
+          <div><div class="review-name">Dr Milan Đorđević</div><div class="review-role">Stomatolog, Novi Sad</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Rokovi se uvek poštuju, komunikacija je odlična, a kvalitet radova je konstantno na najvišem nivou. ZTI Lab je moj prvi i jedini izbor."</p>
+        <div class="review-author">
+          <div class="review-avatar">SN</div>
+          <div><div class="review-name">Dr Svetlana Nikolić</div><div class="review-role">Stomatolog, Subotica</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Keramičke krunice su savršene — boja, oblik, translucencija, sve tačno onako kako sam tražio. Pacijent nije mogao da veruje koliko prirodno izgledaju."</p>
+        <div class="review-author">
+          <div class="review-avatar">BP</div>
+          <div><div class="review-name">Dr Bojan Petrović</div><div class="review-role">Stomatolog, Sremska Mitrovica</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Izuzetna preciznost, vrhunski materijali i profesionalan odnos prema poslu. Preporučujem svakom kolegi koji ceni kvalitet iznad svega."</p>
+        <div class="review-author">
+          <div class="review-avatar">AJ</div>
+          <div><div class="review-name">Dr Ana Jovanović</div><div class="review-role">Ortodont, Beograd</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Veniri su izgledali neverovatno — prirodno, savršeno adaptirani. Pacijentkinja je plakala od sreće. To je prava nagrada za dobru saradnju."</p>
+        <div class="review-author">
+          <div class="review-avatar">MR</div>
+          <div><div class="review-name">Dr Marko Radić</div><div class="review-role">Estetski stomatolog, Novi Sad</div></div>
+        </div>
+      </div>
+      <!-- Duplikat za seamless loop -->
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Sarađujem sa Ivanom godinama i svaki rad koji dobijam je besprekoran. Pacijenti su oduševljeni estetikom, a ja imam potpuno poverenje u preciznost."</p>
+        <div class="review-author">
+          <div class="review-avatar">DM</div>
+          <div><div class="review-name">Dr Milan Đorđević</div><div class="review-role">Stomatolog, Novi Sad</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Rokovi se uvek poštuju, komunikacija je odlična, a kvalitet radova je konstantno na najvišem nivou. ZTI Lab je moj prvi i jedini izbor."</p>
+        <div class="review-author">
+          <div class="review-avatar">SN</div>
+          <div><div class="review-name">Dr Svetlana Nikolić</div><div class="review-role">Stomatolog, Subotica</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Keramičke krunice su savršene — boja, oblik, translucencija, sve tačno onako kako sam tražio. Pacijent nije mogao da veruje koliko prirodno izgledaju."</p>
+        <div class="review-author">
+          <div class="review-avatar">BP</div>
+          <div><div class="review-name">Dr Bojan Petrović</div><div class="review-role">Stomatolog, Sremska Mitrovica</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Izuzetna preciznost, vrhunski materijali i profesionalan odnos prema poslu. Preporučujem svakom kolegi koji ceni kvalitet iznad svega."</p>
+        <div class="review-author">
+          <div class="review-avatar">AJ</div>
+          <div><div class="review-name">Dr Ana Jovanović</div><div class="review-role">Ortodont, Beograd</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Veniri su izgledali neverovatno — prirodno, savršeno adaptirani. Pacijentkinja je plakala od sreće. To je prava nagrada za dobru saradnju."</p>
+        <div class="review-author">
+          <div class="review-avatar">MR</div>
+          <div><div class="review-name">Dr Marko Radić</div><div class="review-role">Estetski stomatolog, Novi Sad</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reviews-cta reveal">
+    <p>Postanite deo naše mreže pouzdanih partnera</p>
+    <a href="#kontakt" class="btn-primary-light">Pošaljite upit</a>
+  </div>
+</section>
+
+<!-- CERTIFIKATI -->
+<section class="certifications reveal">
+  <div class="cert-inner">
+    <div class="cert-item"><div class="cert-icon">◆</div><span class="cert-name">Litijum disilikat</span></div>
+    <div class="cert-item"><div class="cert-icon">◆</div><span class="cert-name">Cirkonijum</span></div>
+    <div class="cert-item"><div class="cert-icon">◆</div><span class="cert-name">CAD/CAM tehnologija</span></div>
+    <div class="cert-item"><div class="cert-icon">◆</div><span class="cert-name">Digitalni sken</span></div>
+    <div class="cert-item"><div class="cert-icon">◆</div><span class="cert-name">Smile Design</span></div>
+    <div class="cert-item"><div class="cert-icon">◆</div><span class="cert-name">Implant sistemi</span></div>
+  </div>
+</section>
+
+<!-- KONTAKT -->
+<section class="contact" id="kontakt">
+  <div class="contact-info reveal">
+    <div class="section-label">Kontakt</div>
+    <h2 class="section-title">Otpočnite<br><em>saradnju</em></h2>
+    <p class="contact-text">Bilo da ste stomatolog koji traži pouzdanog partnera ili da imate pitanje o nekoj usluzi — tu smo. Pišite nam ili pozovite i odgovorićemo u najkraćem roku.</p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div><div class="contact-item-label">Adresa</div><span class="contact-item-value">Rumenačka 21, Novi Sad</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div><div class="contact-item-label">Telefon</div><a href="tel:+381640125598" class="contact-item-value">064 012 5598</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div><div class="contact-item-label">Email</div><a href="mailto:ztilabns@gmail.com" class="contact-item-value">ztilabns@gmail.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📸</div>
+        <div><div class="contact-item-label">Instagram</div><a href="https://instagram.com/ztilab.ns" target="_blank" class="contact-item-value">@ztilab.ns</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div><div class="contact-item-label">Radno vreme</div><span class="contact-item-value">Pon–Pet: 08:00 – 16:00</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal reveal-d1">
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ime i prezime *</label>
+          <input type="text" class="form-input" placeholder="Dr. Ime Prezime" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefon</label>
+          <input type="tel" class="form-input" placeholder="+381 6x xxx xxxx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email adresa *</label>
+        <input type="email" class="form-input" placeholder="email@ordinacija.rs" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vrsta usluge</label>
+        <select class="form-select">
+          <option value="">Izaberite uslugu...</option>
+          <option>Keramičke krunice</option>
+          <option>Zirkonijumski mostovi</option>
+          <option>Proteze</option>
+          <option>Veniri</option>
+          <option>Implantološke nadogradnje</option>
+          <option>Ortodontski aparati</option>
+          <option>Ostalo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Poruka *</label>
+        <textarea class="form-textarea" placeholder="Opišite vaš slučaj ili pitanje..." required></textarea>
+      </div>
+      <button type="submit" class="form-submit">Pošalji upit →</button>
+      <div class="form-success" id="formSuccess">✓ &nbsp; Vaša poruka je uspešno poslata. Javićemo se u roku od 24h.</div>
+    </form>
+  </div>
+</section>
+
+<!-- MAPA -->
+<div class="map-section">
+  <div class="map-grid"></div>
+  <div class="map-pin">
+    <div class="map-pin-icon"></div>
+    <div class="map-address">Rumenačka 21</div>
+    <div class="map-city">Novi Sad, Srbija</div>
+    <a href="https://maps.google.com/?q=Rumenačka+21+Novi+Sad" target="_blank" class="map-link">Otvori u Google Maps →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="footer-logo">ZTI<span>lab</span></a>
+      <p class="footer-tagline">Laboratorija za zubnu tehniku u Novom Sadu. Preciznost, estetika i pouzdanost u svakom radu koji napusti naš atelje.</p>
+      <div class="footer-social">
+        <a href="https://instagram.com/ztilab.ns" target="_blank" class="social-link">IG</a>
+        <a href="mailto:ztilabns@gmail.com" class="social-link">@</a>
+        <a href="tel:+381640125598" class="social-link">☎</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Usluge</div>
+      <ul>
+        <li><a href="#usluge">Keramičke krunice</a></li>
+        <li><a href="#usluge">Zirkonijumski mostovi</a></li>
+        <li><a href="#usluge">Totalne proteze</a></li>
+        <li><a href="#usluge">Veniri</a></li>
+        <li><a href="#usluge">Implant nadogradnje</a></li>
+        <li><a href="#usluge">Ortodontski aparati</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Kompanija</div>
+      <ul>
+        <li><a href="#onama">O nama</a></li>
+        <li><a href="#galerija">Galerija radova</a></li>
+        <li><a href="#recenzije">Recenzije</a></li>
+        <li><a href="#proces">Naš proces</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Kontakt</div>
+      <ul>
+        <li><a href="tel:+381640125598">064 012 5598</a></li>
+        <li><a href="mailto:ztilabns@gmail.com">ztilabns@gmail.com</a></li>
+        <li><a href="#">Rumenačka 21, Novi Sad</a></li>
+        <li><a href="#">Pon–Pet: 08–16h</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 ZTI Lab · Ivana Popadić<span class="footer-sep">·</span>Sva prava zadržana</div>
+    <div class="footer-line"></div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+
+  // Gallery filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Form submit
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.form-submit');
+    btn.textContent = 'Slanje...';
+    setTimeout(() => {
+      document.getElementById('formSuccess').style.display = 'block';
+      btn.textContent = 'Pošalji upit →';
+      this.reset();
+    }, 1200);
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
