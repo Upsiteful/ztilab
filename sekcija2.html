@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZTI Lab NS — Pre i Posle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#eef4fb;
+  --white:#ffffff;
+  --accent:#2a7abf;
+  --accent2:#4faee0;
+  --accent3:#1a5a9a;
+  --text:#0d2a45;
+  --muted:rgba(13,42,69,.5);
+  --light-muted:rgba(13,42,69,.28);
+  --border:rgba(42,122,191,.14);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(42,122,191,.055) 1px,transparent 1px);
+  background-size:30px 30px;
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 700px 450px at 8% 15%,rgba(79,174,224,.11) 0%,transparent 65%),
+    radial-gradient(ellipse 550px 380px at 90% 85%,rgba(42,122,191,.08) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* ══════ SECTION ══════ */
+.ba-section{
+  position:relative;z-index:1;
+  padding:88px 0 100px;
+  min-height:100vh;
+}
+
+/* ── HEADER ── */
+.ba-header{
+  text-align:center;
+  padding:0 24px;
+  margin-bottom:52px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:14px;
+  font-size:10px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--accent2);margin-bottom:16px;
+}
+.eyebrow::before,.eyebrow::after{content:'';width:30px;height:1px;background:var(--accent2);opacity:.7;}
+.ba-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(30px,4.8vw,60px);
+  font-weight:300;line-height:1.08;
+  color:var(--text);margin-bottom:14px;
+}
+.ba-title em{font-style:italic;color:var(--accent);}
+.ba-subtitle{
+  font-size:15px;font-weight:300;color:var(--muted);
+  max-width:500px;margin:0 auto;line-height:1.7;
+}
+
+/* ══════ SLIDER WRAP ══════ */
+.slider-outer{
+  max-width:1160px;
+  margin:0 auto;
+  padding:0 40px;
+}
+
+/* ── SLIDER CONTAINER ── */
+.ba-slider{
+  position:relative;
+  width:100%;
+  border-radius:18px;
+  overflow:hidden;
+  aspect-ratio:16/7;
+  background:#1a2a3a;
+  box-shadow:0 20px 70px rgba(13,42,69,.18), 0 4px 16px rgba(13,42,69,.10);
+  cursor:col-resize;
+  user-select:none;
+  touch-action:pan-y;
+}
+
+/* AFTER image — full width, always visible as base */
+.img-after{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* BEFORE image — full size, clipped by clip-path */
+.img-before-wrap{
+  position:absolute;inset:0;
+}
+.img-before{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+}
+
+/* PRE / POSLE badges */
+.badge{
+  position:absolute;top:22px;
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.28);
+  color:#fff;
+  font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  padding:7px 16px;
+  border-radius:30px;
+  pointer-events:none;
+}
+.badge-pre{ left:22px; }
+.badge-post{ right:22px; }
+
+/* DIVIDER LINE */
+.divider{
+  position:absolute;top:0;bottom:0;
+  width:2px;
+  background:rgba(255,255,255,.9);
+  transform:translateX(-50%);
+  pointer-events:none;
+  box-shadow:0 0 12px rgba(255,255,255,.5);
+}
+
+/* DRAG HANDLE */
+.handle{
+  position:absolute;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:48px;height:48px;
+  border-radius:50%;
+  background:var(--white);
+  box-shadow:0 4px 20px rgba(0,0,0,.28), 0 0 0 4px rgba(255,255,255,.35);
+  display:flex;align-items:center;justify-content:center;
+  gap:4px;
+  transition:transform .15s ease, box-shadow .15s ease;
+  z-index:10;
+  pointer-events:none;
+}
+.handle:active,.ba-slider.dragging .handle{
+  transform:translate(-50%,-50%) scale(1.1);
+  box-shadow:0 6px 28px rgba(0,0,0,.35), 0 0 0 5px rgba(255,255,255,.4);
+}
+.handle svg{width:18px;height:18px;stroke:var(--accent3);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* case counter */
+.case-count{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  font-size:11px;font-weight:500;letter-spacing:.12em;
+  color:rgba(255,255,255,.7);
+  background:rgba(0,0,0,.22);
+  backdrop-filter:blur(8px);
+  padding:5px 14px;border-radius:20px;
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+/* ══════ CATEGORY TABS ══════ */
+.tabs-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:28px 0 10px;
+  flex-wrap:wrap;
+}
+.tab-btn{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:400;
+  color:var(--muted);
+  background:transparent;
+  border:1.5px solid rgba(42,122,191,.22);
+  padding:9px 20px;border-radius:30px;
+  cursor:pointer;
+  transition:all .25s;
+  white-space:nowrap;
+}
+.tab-btn:hover{border-color:var(--accent2);color:var(--accent);}
+.tab-btn.active{
+  background:var(--accent);border-color:var(--accent);
+  color:#fff;font-weight:500;
+  box-shadow:0 4px 16px rgba(42,122,191,.3);
+}
+
+.tabs-nav{
+  margin-left:auto;
+  display:flex;gap:8px;
+  flex-shrink:0;
+}
+.nav-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:transparent;
+  border:1.5px solid rgba(42,122,191,.28);
+  color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s;
+}
+.nav-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+.nav-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;}
+
+.case-indicator{
+  width:100%;text-align:center;
+  font-size:12px;font-weight:500;letter-spacing:.08em;
+  color:var(--light-muted);
+  padding:4px 0 0;
+}
+
+/* ══════ FEATURES BAR ══════ */
+.features-bar{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:rgba(42,122,191,.1);
+  max-width:1160px;
+  margin:44px auto 0;padding:0 40px;
+  border-radius:14px;overflow:hidden;
+  border:1px solid rgba(42,122,191,.11);
+}
+.feat{
+  background:var(--white);
+  padding:26px 26px;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.feat-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(79,174,224,.1);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.feat-icon svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.6;}
+.feat-title{font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.feat-desc{font-size:12px;font-weight:300;color:var(--muted);line-height:1.6;}
+
+/* ══════ RESPONSIVE ══════ */
+@media(max-width:900px){
+  .slider-outer{padding:0 20px;}
+  .ba-slider{aspect-ratio:4/3;}
+  .features-bar{grid-template-columns:repeat(2,1fr);padding:0 20px;}
+}
+@media(max-width:560px){
+  .ba-section{padding:56px 0 72px;}
+  .ba-slider{aspect-ratio:3/4;border-radius:12px;}
+  .features-bar{grid-template-columns:1fr;}
+  .tabs-nav{display:none;}
+  .tab-btn{font-size:12px;padding:8px 14px;}
+}
+
+/* entry anims */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.ani{animation:fadeUp .7s ease both;}
+.d1{animation-delay:.08s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}
+</style>
+</head>
+<body>
+
+<section class="ba-section">
+
+  <!-- HEADER -->
+  <div class="ba-header ani d1">
+    <div class="eyebrow">Preciznost koja se vidi</div>
+    <h2 class="ba-title">Rezultati koji govore <em>sami za sebe.</em></h2>
+    <p class="ba-subtitle">Pogledajte transformacije koje vraćaju osmeh i samopouzdanje.</p>
+  </div>
+
+  <div class="slider-outer ani d2">
+
+    <!-- SLIDER -->
+    <div class="ba-slider" id="baSlider">
+      <!-- AFTER (base layer) -->
+      <img class="img-after" id="imgAfter" src="posle.png" alt="Posle" draggable="false"
+        onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22350%22><rect width=%22800%22 height=%22350%22 fill=%22%2334a0d8%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2232%22 fill=%22rgba(255,255,255,.7)%22>POSLE</text></svg>'"/>
+
+      <!-- BEFORE (clipped layer) -->
+      <div class="img-before-wrap" id="beforeWrap">
+        <img class="img-before" id="imgBefore" src="pre.png" alt="Pre" draggable="false"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%22350%22><rect width=%22800%22 height=%22350%22 fill=%22%23a0784a%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2232%22 fill=%22rgba(255,255,255,.7)%22>PRE</text></svg>'"/>
+      </div>
+
+      <!-- Badges -->
+      <div class="badge badge-pre">PRE</div>
+      <div class="badge badge-post">POSLE</div>
+
+      <!-- Divider + handle (positioned by JS) -->
+      <div class="divider" id="divider"></div>
+      <div class="handle" id="handle">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+      </div>
+
+      <!-- Case counter -->
+      <div class="case-count" id="caseCount">01 / 05</div>
+    </div>
+
+    <!-- TABS + NAV -->
+    <div class="tabs-row ani d3" id="tabsRow">
+      <!-- tabs injected by JS -->
+      <div class="tabs-nav">
+        <button class="nav-btn" id="navPrev">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="nav-btn" id="navNext">
+          <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="case-indicator ani d3" id="caseIndicator">01 / 01</div>
+
+  </div><!-- /slider-outer -->
+
+  <!-- FEATURES BAR -->
+  <div class="features-bar ani d4">
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">Vrhunska estetika</div>
+        <div class="feat-desc">Prirodni izgled koji se savršeno uklapa.</div>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M22 12h-4M6 12H2M12 6V2M12 22v-4"/><circle cx="12" cy="12" r="9" opacity=".25"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">Mikronska preciznost</div>
+        <div class="feat-desc">Digitalni workflow za savršeno pristajanje.</div>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">Dugotrajnost</div>
+        <div class="feat-desc">Materijali najviše kvaliteta i proverene izdržljivosti.</div>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      </div>
+      <div>
+        <div class="feat-title">Poverenje pacijenata</div>
+        <div class="feat-desc">Hiljade zadovoljnih pacijenata i novi osmesi svaki dan.</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+/* ── CASES DATA ── */
+const CATEGORIES = [
+  {
+    label: 'Sve transformacije',
+    cases: [
+      { pre:'pre.png',   post:'posle.png', note:'Kompletna restauracija osmeha' },
+      { pre:'pre.png',   post:'posle.png', note:'Keramičke krunice — gornja vilica' },
+      { pre:'pre.png',   post:'posle.png', note:'Fasete — prednji zubi' },
+      { pre:'pre.png',   post:'posle.png', note:'Implantoprotetika' },
+      { pre:'pre.png',   post:'posle.png', note:'Cirkonijumski most' },
+    ]
+  },
+  {
+    label: 'Keramičke krunice',
+    cases: [
+      { pre:'pre.png', post:'posle.png', note:'Keramičke krunice — set 1' },
+      { pre:'pre.png', post:'posle.png', note:'Keramičke krunice — set 2' },
+    ]
+  },
+  {
+    label: 'Fasete',
+    cases: [
+      { pre:'pre.png', post:'posle.png', note:'Fasete — prednji zubi' },
+      { pre:'pre.png', post:'posle.png', note:'Fasete — kompletni osmeh' },
+    ]
+  },
+  {
+    label: 'Implanti',
+    cases: [
+      { pre:'pre.png', post:'posle.png', note:'Implantoprotetika' },
+    ]
+  },
+  {
+    label: 'Inleji / Onleji',
+    cases: [
+      { pre:'pre.png', post:'posle.png', note:'Inlej restauracija' },
+      { pre:'pre.png', post:'posle.png', note:'Onlej — bočna regija' },
+    ]
+  },
+];
+
+/* ── STATE ── */
+let activeCat  = 0;
+let activeCase = 0;
+let sliderPct  = 50; // 0–100
+let dragging   = false;
+
+/* ── DOM ── */
+const slider      = document.getElementById('baSlider');
+const beforeWrap  = document.getElementById('beforeWrap');
+const imgBefore   = document.getElementById('imgBefore');
+const imgAfter    = document.getElementById('imgAfter');
+const dividerEl   = document.getElementById('divider');
+const handleEl    = document.getElementById('handle');
+const tabsRow     = document.getElementById('tabsRow');
+const navPrev     = document.getElementById('navPrev');
+const navNext     = document.getElementById('navNext');
+const caseCount   = document.getElementById('caseCount');
+const caseInd     = document.getElementById('caseIndicator');
+
+/* ── BUILD TABS ── */
+function buildTabs(){
+  // remove old tabs (keep .tabs-nav)
+  const nav = tabsRow.querySelector('.tabs-nav');
+  tabsRow.innerHTML = '';
+  CATEGORIES.forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (i === activeCat ? ' active' : '');
+    btn.textContent = cat.label;
+    btn.addEventListener('click', () => {
+      activeCat  = i;
+      activeCase = 0;
+      buildTabs();
+      loadCase();
+    });
+    tabsRow.appendChild(btn);
+  });
+  tabsRow.appendChild(nav);
+}
+
+/* ── LOAD CASE ── */
+function loadCase(){
+  const cat   = CATEGORIES[activeCat];
+  const total = cat.cases.length;
+  const c     = cat.cases[activeCase];
+
+  // fade swap
+  slider.style.opacity = '.7';
+  setTimeout(() => {
+    imgBefore.src = c.pre;
+    imgAfter.src  = c.post;
+    sliderPct     = 50;
+    applySlider();
+    slider.style.opacity = '1';
+  }, 160);
+
+  const pad = n => String(n+1).padStart(2,'0');
+  caseCount.textContent = `${pad(activeCase)} / ${pad(total-1)}`;
+  caseInd.textContent   = `${pad(activeCase)} / ${pad(total-1)}`;
+}
+
+/* ── APPLY SLIDER POSITION ── */
+function applySlider(){
+  const pct = sliderPct;
+  // clip the before wrap: show left portion, hide right
+  beforeWrap.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+  dividerEl.style.left = pct + '%';
+  handleEl.style.left  = pct + '%';
+}
+
+/* ── SLIDER DRAG ── */
+function getX(e){ return e.touches ? e.touches[0].clientX : e.clientX; }
+
+function onDragStart(e){
+  dragging = true;
+  slider.classList.add('dragging');
+  e.preventDefault();
+}
+function onDragMove(e){
+  if(!dragging) return;
+  const rect = slider.getBoundingClientRect();
+  sliderPct = Math.max(0, Math.min(100, (getX(e) - rect.left) / rect.width * 100));
+  applySlider();
+}
+function onDragEnd(){
+  dragging = false;
+  slider.classList.remove('dragging');
+}
+
+slider.addEventListener('mousedown', onDragStart);
+slider.addEventListener('touchstart', onDragStart, {passive:false});
+window.addEventListener('mousemove', onDragMove);
+window.addEventListener('touchmove', onDragMove, {passive:true});
+window.addEventListener('mouseup', onDragEnd);
+window.addEventListener('touchend', onDragEnd);
+
+/* ── CASE NAV ── */
+navPrev.addEventListener('click', () => {
+  const total = CATEGORIES[activeCat].cases.length;
+  activeCase = (activeCase - 1 + total) % total;
+  loadCase();
+});
+navNext.addEventListener('click', () => {
+  const total = CATEGORIES[activeCat].cases.length;
+  activeCase = (activeCase + 1) % total;
+  loadCase();
+});
+
+/* ── RESIZE ── */
+window.addEventListener('resize', applySlider);
+
+/* ── slider transition ── */
+slider.style.transition = 'opacity .15s ease';
+
+/* ── INIT ── */
+buildTabs();
+loadCase();
+applySlider();
+</script>
+</body>
+</html>
