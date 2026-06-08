@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="sr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZTI Lab – Laboratorija za Zubnu Tehniku | Novi Sad</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -115,12 +117,28 @@ nav.scrolled {
   overflow: hidden;
   background: linear-gradient(150deg, #EAF4FC 0%, #D6EAF8 50%, #C8E0F4 100%);
 }
+
+/* Hero background image — blagi overlay preko slike */
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center right;
+  opacity: 0.18;
+}
+
 .hero-circles {
   position: absolute;
   right: -80px; top: 50%;
   transform: translateY(-50%);
   width: 640px; height: 640px;
   pointer-events: none;
+  z-index: 1;
 }
 .hero-circle-1 {
   position: absolute;
@@ -156,6 +174,7 @@ nav.scrolled {
 .hero-grid {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background-image:
     repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(27,79,114,0.04) 59px, rgba(27,79,114,0.04) 60px),
     repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(27,79,114,0.04) 59px, rgba(27,79,114,0.04) 60px);
@@ -361,7 +380,6 @@ nav.scrolled {
   font-family: 'Cormorant Garamond', serif;
   font-size: 13px;
   letter-spacing: 0.2em;
-  color: var(--blue-pale);
   color: rgba(27,79,114,0.25);
   margin-bottom: 28px;
 }
@@ -405,51 +423,34 @@ nav.scrolled {
   position: relative;
   height: 520px;
 }
-.about-frame {
+
+/* About — prava slika laboratorije */
+.about-photo {
   position: absolute;
   inset: 0;
-  background: var(--white);
+  overflow: hidden;
   border: 1px solid rgba(27,79,114,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.about-frame-inner {
-  width: calc(100% - 48px);
-  height: calc(100% - 48px);
-  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+.about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s ease;
 }
-.about-monogram {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 96px;
-  font-weight: 300;
-  color: rgba(27,79,114,0.1);
-  line-height: 1;
-}
-.about-frame-label {
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.about-frame-divider {
-  display: flex; align-items: center; gap: 16px;
-}
-.about-frame-divider-line { width: 48px; height: 1px; background: rgba(27,79,114,0.2); }
-.about-frame-divider-dot { width: 6px; height: 6px; background: var(--blue-light); transform: rotate(45deg); }
+.about-photo:hover img { transform: scale(1.03); }
+
+/* Ugaoni dekorati ostaju na slici */
 .about-corner {
   position: absolute;
   width: 22px; height: 22px;
+  z-index: 2;
 }
 .about-corner.tl { top: 0; left: 0; border-top: 2px solid var(--blue-light); border-left: 2px solid var(--blue-light); }
 .about-corner.tr { top: 0; right: 0; border-top: 2px solid var(--blue-light); border-right: 2px solid var(--blue-light); }
 .about-corner.bl { bottom: 0; left: 0; border-bottom: 2px solid var(--blue-light); border-left: 2px solid var(--blue-light); }
 .about-corner.br { bottom: 0; right: 0; border-bottom: 2px solid var(--blue-light); border-right: 2px solid var(--blue-light); }
+
 .about-badge {
   position: absolute;
   bottom: -24px; right: -24px;
@@ -459,6 +460,7 @@ nav.scrolled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 }
 .about-badge-num {
   font-family: 'Cormorant Garamond', serif;
@@ -545,16 +547,18 @@ nav.scrolled {
 .gallery-item { position: relative; overflow: hidden; background: var(--bg-2); }
 .gallery-item.wide { grid-column: span 2; }
 .gallery-item.tall { grid-row: span 2; }
-.gallery-item-inner {
-  width: 100%; height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+/* Slike u galeriji */
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   transition: transform 0.6s ease;
-  background: linear-gradient(135deg, var(--bg-2), var(--bg-3));
-  position: relative;
+  display: block;
 }
-.gallery-item:hover .gallery-item-inner { transform: scale(1.04); }
+.gallery-item:hover img { transform: scale(1.04); }
+
 .gallery-overlay {
   position: absolute;
   inset: 0;
@@ -564,6 +568,7 @@ nav.scrolled {
   display: flex;
   align-items: flex-end;
   padding: 22px;
+  z-index: 1;
 }
 .gallery-item:hover .gallery-overlay { opacity: 1; }
 .gallery-label {
@@ -578,7 +583,21 @@ nav.scrolled {
   color: rgba(180,210,240,0.85);
   margin-top: 4px;
 }
-.gallery-art { opacity: 0.3; }
+
+/* Fallback ako slika ne postoji — placeholder boja */
+.gallery-item .img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--bg-2), var(--bg-3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: rgba(27,79,114,0.3);
+  text-transform: uppercase;
+}
 
 /* PROCES */
 .process {
@@ -1047,6 +1066,12 @@ footer {
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-grid"></div>
+
+  <!-- hero-bg.png: blagi pozadinski motiv (detalj rada, ruka tehničara ili zub na radnoj površini) -->
+  <div class="hero-bg-img">
+    <img src="images/hero-bg.png" alt="" aria-hidden="true">
+  </div>
+
   <div class="hero-circles">
     <div class="hero-circle-1"><div class="hero-dot"></div></div>
     <div class="hero-circle-2"></div>
@@ -1156,20 +1181,20 @@ footer {
 <!-- O NAMA -->
 <section class="about" id="onama">
   <div class="about-visual reveal">
-    <div class="about-frame">
+    <!--
+      about-lab.png: fotografija laboratorije ili Ivane pri radu
+      Preporučene dimenzije: minimum 900×1040px, portretna orijentacija
+    -->
+    <div class="about-photo">
       <span class="about-corner tl"></span>
       <span class="about-corner tr"></span>
       <span class="about-corner bl"></span>
       <span class="about-corner br"></span>
-      <div class="about-frame-inner">
-        <div class="about-monogram">ZTI</div>
-        <div class="about-frame-label">Est. 2012 · Novi Sad</div>
-        <div class="about-frame-divider">
-          <div class="about-frame-divider-line"></div>
-          <div class="about-frame-divider-dot"></div>
-          <div class="about-frame-divider-line"></div>
-        </div>
-      </div>
+      <img
+        src="images/about-lab.png"
+        alt="Ivana Popadić u laboratoriji ZTI Lab, Novi Sad"
+        loading="lazy"
+      >
     </div>
     <div class="about-badge">
       <div class="about-badge-num">12+</div>
@@ -1221,88 +1246,127 @@ footer {
     </div>
   </div>
   <div class="gallery-grid reveal">
-    <div class="gallery-item wide">
-      <div class="gallery-item-inner">
-        <svg class="gallery-art" viewBox="0 0 560 220" width="380" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M40 170 Q80 110 130 130 Q160 142 190 122 Q230 95 270 118 Q310 142 340 122 Q380 98 420 128 Q460 155 520 170" stroke="#1B4F72" stroke-width="2"/>
-          <ellipse cx="190" cy="118" rx="38" ry="52" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.06)"/>
-          <ellipse cx="270" cy="110" rx="38" ry="56" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.06)"/>
-          <ellipse cx="420" cy="122" rx="38" ry="50" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.06)"/>
-          <text x="280" y="205" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="13" letter-spacing="7">ZIRKONIJUMSKI MOST · 3 ČLANA</text>
-        </svg>
-        <div class="gallery-overlay">
-          <div><div class="gallery-label">Zirkonijumski most — 3 člana</div><div class="gallery-sublabel">Anterior estetika · 2024</div></div>
+
+    <!--
+      gallery-zirkon-most.png
+      Pozicija: WIDE (zauzima 2 kolone), visina 220px
+      Sadržaj: fotografija zirkonijumskog mosta (3 člana, prednji zubi)
+      Preporučene dimenzije: min 1000×440px, landscape
+    -->
+    <div class="gallery-item wide" data-category="krunice">
+      <img
+        src="images/gallery-zirkon-most.png"
+        alt="Zirkonijumski most — 3 člana, prednji zubi"
+        loading="lazy"
+      >
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Zirkonijumski most — 3 člana</div>
+          <div class="gallery-sublabel">Anterior estetika · 2024</div>
         </div>
       </div>
     </div>
-    <div class="gallery-item">
-      <div class="gallery-item-inner">
-        <svg class="gallery-art" viewBox="0 0 220 220" width="130" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="110" cy="124" rx="52" ry="66" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
-          <path d="M68 110 Q110 76 152 110" stroke="#1B4F72" stroke-width="1"/>
-          <line x1="110" y1="76" x2="110" y2="58" stroke="#1B4F72" stroke-width="1"/>
-          <circle cx="110" cy="52" r="6" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.1)"/>
-          <text x="110" y="210" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="4">VENEER</text>
-        </svg>
-        <div class="gallery-overlay">
-          <div><div class="gallery-label">Keramički veniri</div><div class="gallery-sublabel">E.max Press · 2024</div></div>
+
+    <!--
+      gallery-veniri.png
+      Pozicija: normalna ćelija, visina 220px
+      Sadržaj: keramički veniri, gotov rad (frontalni pogled)
+      Preporučene dimenzije: min 500×440px, može i square
+    -->
+    <div class="gallery-item" data-category="veniri">
+      <img
+        src="images/gallery-veniri.png"
+        alt="Keramički veniri — E.max Press"
+        loading="lazy"
+      >
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Keramički veniri</div>
+          <div class="gallery-sublabel">E.max Press · 2024</div>
         </div>
       </div>
     </div>
-    <div class="gallery-item tall">
-      <div class="gallery-item-inner">
-        <svg class="gallery-art" viewBox="0 0 220 440" width="100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="110" cy="148" rx="54" ry="74" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
-          <ellipse cx="110" cy="310" rx="50" ry="66" stroke="#1B4F72" stroke-width="1.5" fill="rgba(27,79,114,0.04)"/>
-          <path d="M56 222 Q110 258 164 222" stroke="#2E86C1" stroke-width="1" stroke-dasharray="4 4"/>
-          <line x1="110" y1="74" x2="110" y2="244" stroke="rgba(27,79,114,0.2)" stroke-width="1"/>
-          <text x="110" y="424" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="3">IMPLANT</text>
-        </svg>
-        <div class="gallery-overlay">
-          <div><div class="gallery-label">Implantološka nadogradnja</div><div class="gallery-sublabel">Zirkon abutment · 2024</div></div>
+
+    <!--
+      gallery-implant.png
+      Pozicija: TALL (zauzima 2 reda), visina 440px
+      Sadržaj: implantološka nadogradnja sa zirkon abutmentom
+      Preporučene dimenzije: min 500×880px, portretna orijentacija
+    -->
+    <div class="gallery-item tall" data-category="krunice">
+      <img
+        src="images/gallery-implant.png"
+        alt="Implantološka nadogradnja — zirkon abutment"
+        loading="lazy"
+      >
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Implantološka nadogradnja</div>
+          <div class="gallery-sublabel">Zirkon abutment · 2024</div>
         </div>
       </div>
     </div>
-    <div class="gallery-item">
-      <div class="gallery-item-inner">
-        <svg class="gallery-art" viewBox="0 0 220 220" width="130" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M36 170 Q110 62 184 170" stroke="#1B4F72" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
-          <path d="M58 170 Q110 86 162 170" stroke="#2E86C1" stroke-width="1"/>
-          <circle cx="110" cy="72" r="18" stroke="#2E86C1" stroke-width="1.5" fill="rgba(46,134,193,0.07)"/>
-          <text x="110" y="210" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="4">E.MAX</text>
-        </svg>
-        <div class="gallery-overlay">
-          <div><div class="gallery-label">Mono-keramička kruna</div><div class="gallery-sublabel">Emax Press · 2025</div></div>
+
+    <!--
+      gallery-emax-kruna.png
+      Pozicija: normalna ćelija, visina 220px
+      Sadržaj: mono-keramička kruna Emax Press
+      Preporučene dimenzije: min 500×440px
+    -->
+    <div class="gallery-item" data-category="krunice">
+      <img
+        src="images/gallery-emax-kruna.png"
+        alt="Mono-keramička kruna — Emax Press"
+        loading="lazy"
+      >
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Mono-keramička kruna</div>
+          <div class="gallery-sublabel">Emax Press · 2025</div>
         </div>
       </div>
     </div>
-    <div class="gallery-item wide">
-      <div class="gallery-item-inner">
-        <svg class="gallery-art" viewBox="0 0 560 220" width="380" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M44 144 Q100 76 156 96 L200 88 Q248 68 280 88 L324 96 Q380 76 436 96 Q492 118 516 144" stroke="#1B4F72" stroke-width="1.5" fill="none"/>
-          <rect x="72" y="136" width="416" height="28" rx="4" stroke="#2E86C1" stroke-width="1" fill="rgba(46,134,193,0.04)"/>
-          <text x="280" y="205" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="13" letter-spacing="7">TOTALNA PROTEZA · PREMIUM</text>
-        </svg>
-        <div class="gallery-overlay">
-          <div><div class="gallery-label">Totalna proteza</div><div class="gallery-sublabel">Premium akrilat · 2025</div></div>
+
+    <!--
+      gallery-proteza.png
+      Pozicija: WIDE (zauzima 2 kolone), visina 220px
+      Sadržaj: totalna proteza, premium akrilat
+      Preporučene dimenzije: min 1000×440px, landscape
+    -->
+    <div class="gallery-item wide" data-category="proteze">
+      <img
+        src="images/gallery-proteza.png"
+        alt="Totalna proteza — premium akrilat"
+        loading="lazy"
+      >
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Totalna proteza</div>
+          <div class="gallery-sublabel">Premium akrilat · 2025</div>
         </div>
       </div>
     </div>
-    <div class="gallery-item">
-      <div class="gallery-item-inner">
-        <svg class="gallery-art" viewBox="0 0 220 220" width="130" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M36 136 Q110 56 184 136" stroke="#1B4F72" stroke-width="1.5" fill="rgba(46,134,193,0.05)"/>
-          <path d="M58 136 Q110 76 162 136" stroke="#2E86C1" stroke-width="1" fill="rgba(27,79,114,0.03)"/>
-          <line x1="76" y1="136" x2="76" y2="190" stroke="#2E86C1" stroke-width="1"/>
-          <line x1="144" y1="136" x2="144" y2="190" stroke="#2E86C1" stroke-width="1"/>
-          <line x1="66" y1="190" x2="154" y2="190" stroke="#1B4F72" stroke-width="1.5"/>
-          <text x="110" y="212" text-anchor="middle" fill="rgba(27,79,114,0.35)" font-family="Cormorant Garamond" font-size="11" letter-spacing="3">RETAJNER</text>
-        </svg>
-        <div class="gallery-overlay">
-          <div><div class="gallery-label">Ortodontski retajner</div><div class="gallery-sublabel">Vakum-termoplast · 2025</div></div>
+
+    <!--
+      gallery-retajner.png
+      Pozicija: normalna ćelija, visina 220px
+      Sadržaj: ortodontski retajner, vakum-termoplast
+      Preporučene dimenzije: min 500×440px
+    -->
+    <div class="gallery-item" data-category="ostalo">
+      <img
+        src="images/gallery-retajner.png"
+        alt="Ortodontski retajner — vakum-termoplast"
+        loading="lazy"
+      >
+      <div class="gallery-overlay">
+        <div>
+          <div class="gallery-label">Ortodontski retajner</div>
+          <div class="gallery-sublabel">Vakum-termoplast · 2025</div>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -1340,7 +1404,7 @@ footer {
 <section class="reviews" id="recenzije">
   <div class="reviews-header reveal">
     <div class="section-label">Šta kažu klijenti</div>
-    <h2 class="section-title">Reči <em>hvale</em></h2>
+    <h2 class="section-title">Recenzije kolega i <em> mušterija</em></h2>
   </div>
   <div style="overflow:hidden;">
     <div class="reviews-track">
@@ -1586,11 +1650,21 @@ footer {
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
 
-  // Gallery filter buttons
+  // Gallery filter — filtrira po data-category atributu
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
+      const filter = this.textContent.trim().toLowerCase();
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        if (filter === 'sve') {
+          item.style.display = '';
+        } else {
+          const cat = item.dataset.category || '';
+          const map = { 'krunice': 'krunice', 'proteze': 'proteze', 'veniri': 'veniri' };
+          item.style.display = (cat === (map[filter] || filter)) ? '' : 'none';
+        }
+      });
     });
   });
 
